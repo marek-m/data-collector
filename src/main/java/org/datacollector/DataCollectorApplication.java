@@ -1,7 +1,10 @@
 package org.datacollector;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = { "org.datacollector" })
@@ -11,4 +14,10 @@ public class DataCollectorApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DataCollectorApplication.class, args);
 	}
+	
+	@Bean
+	public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf) {
+		return hemf.getSessionFactory();
+	}
+
 }
