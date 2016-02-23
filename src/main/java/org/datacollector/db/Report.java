@@ -31,7 +31,10 @@ public class Report implements Serializable {
 	@Temporal(javax.persistence.TemporalType.DATE)
 	private Date date;
 
-	
+
+	public Report() {
+		super();
+	}
 	
 	public Report(String name) {
 		super();
