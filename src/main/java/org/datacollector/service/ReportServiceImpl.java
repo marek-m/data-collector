@@ -28,7 +28,7 @@ public class ReportServiceImpl implements ReportService {
 		Transaction tx = session.beginTransaction();
 		try {
 			Report report = new Report(name);
-			dao.save(report);
+			dao.save(report, session);
 			tx.commit();
 			session.close();
 		} catch (Exception e) {
