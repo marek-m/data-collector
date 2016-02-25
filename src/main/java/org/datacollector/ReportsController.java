@@ -33,8 +33,7 @@ public class ReportsController {
 	}
 	
 	@RequestMapping("/getAll")
-	@ResponseBody
-	public List<ReportModel> getAll() {
+	public @ResponseBody List<ReportModel> getAll() {
 		try {
 			
 			return service.getReports();
