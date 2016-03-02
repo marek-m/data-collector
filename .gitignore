@@ -54,6 +54,7 @@ Temporary Items
 .metadata
 bin/
 tmp/
+target/
 *.tmp
 *.bak
 *.swp
