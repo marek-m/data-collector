@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.datacollector.db.model.ReportModel;
 import org.datacollector.service.ReportService;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

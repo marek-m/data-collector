@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,6 +150,18 @@ public abstract class DaoTemplate<T> {
 	public Collection<T> getAll(){
 		Session session = sf.openSession();
 		List<T> list = (List<T>)session.createCriteria(getClazz()).list();
+		session.close();
+		if(list == null) 
+			return new ArrayList<T>();
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Collection<T> getAllActive(){
+		Session session = sf.openSession();
+		List<T> list = (List<T>)session.createCriteria(getClazz())
+				.add(Restrictions.eq("active", true))
+				.list();
 		session.close();
 		if(list == null) 
 			return new ArrayList<T>();
