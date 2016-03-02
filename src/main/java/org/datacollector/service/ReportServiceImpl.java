@@ -2,8 +2,11 @@ package org.datacollector.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import org.apache.commons.validator.EmailValidator;
 import org.datacollector.dao.ReportDao;
+import org.datacollector.db.PollutionType;
 import org.datacollector.db.Report;
 import org.datacollector.db.model.ReportModel;
 import org.hibernate.Session;
@@ -27,22 +30,6 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	ReportDao dao;
-	
-	public void add(String name) throws Exception {
-		Session session = sf.openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			Report report = new Report(name);
-			dao.save(report, session);
-			tx.commit();
-			session.close();
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-			tx.rollback();
-			session.close();
-			throw e;
-		}
-	}
 
 	
 	public List<ReportModel> getReports() throws Exception {
@@ -52,10 +39,10 @@ public class ReportServiceImpl implements ReportService {
 		
 		List<ReportModel> results = new ArrayList<ReportModel>(0);
 		
-		for(Report r : list) {
-			ReportModel m = new ReportModel(r.getId(), r.getName(), r.getDate());
-			results.add(m);
-		}
+//		for(Report r : list) {
+//			ReportModel m = new ReportModel(r.getId(), r.getName(), r.getDate());
+//			results.add(m);
+//		}
 		return results;
 	}
 
@@ -63,10 +50,34 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public Long addReport(String lat, String lng, int pollutionType, String description, String email)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Long result = null;
+		//Validate data
+		isNullOrEmpty(lat, "lat");
+		isNullOrEmpty(lng, "lng");
+		
+		PollutionType pollution = PollutionType.values()[pollutionType];
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Report report = new Report(lat, lng, pollution, description, email);
+			result = dao.save(report, session);
+			tx.commit();
+			session.close();
+		} catch (Exception e) {
+			System.out.println("Exception:" + e.getMessage());
+			tx.rollback();
+			session.close();
+			throw e;
+		}
+		
+		return result;
 	}
 
+	private static void isNullOrEmpty(String parameter, String parameterName) throws Exception {
+		if(Objects.isNull(parameter) || parameter.isEmpty()) {
+			throw new Exception("Parameter " + parameterName + " is required");
+		}
+	}
 
 	@Override
 	public List<ReportModel> getAll() throws Exception {
