@@ -179,7 +179,8 @@ public class ReportServiceImpl implements ReportService {
 			r = dao.getByUID(reportsUID, session);
 			if(r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
 		} catch (Exception e) {
-
+			session.close();
+			throw e;
 		} finally {
 			session.close();
 		}

@@ -28,6 +28,9 @@ public class ReportDaoImpl extends ReportDao {
 		DateTime now = DateTime.now();
 		DateTime startOfDay = MyDateTimeUtils.localDateStartOfDay(now);
 
+		System.out.println("FROM:"+startOfDay.toDate().toString());
+		System.out.println("TO:"+MyDateTimeUtils.localDateNow().toDate().toString());
+
 		return  (List<Report>) session.createCriteria(Report.class)
 				.add(Restrictions.ge("date", startOfDay.toDate()))
 				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
