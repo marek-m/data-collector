@@ -6,6 +6,7 @@ import java.util.List;
 import org.datacollector.db.Report;
 import org.datacollector.utils.MyDateTimeUtils;
 import org.hibernate.Session;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -16,8 +17,10 @@ public class ReportDaoImpl extends ReportDao {
 
 	@Override
 	public List<Report> getAllByEmail(String email, Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		return  (List<Report>) session.createCriteria(Report.class)
+				.add(Restrictions.eq("active", true))
+				.add(Restrictions.eq("email", email))
+				.list();
 	}
 
 	@Override
@@ -91,8 +94,7 @@ public class ReportDaoImpl extends ReportDao {
 
 	@Override
 	public List<Report> getByDatePeriod(Date dateFrom, Date dateTo, Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 

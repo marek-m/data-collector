@@ -15,6 +15,7 @@ import org.datacollector.utils.Messages;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -159,15 +160,13 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public List<ReportModel> getByDatePeriod(Long timestampFrom, Long timestampTo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 
 	@Override
 	public List<ReportModel> getByArea(String centerLat, String centerLng, Double radius) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 
