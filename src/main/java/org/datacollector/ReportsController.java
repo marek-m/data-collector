@@ -58,19 +58,19 @@ public class ReportsController {
 		
 	@RequestMapping("/getAll")
 	public @ResponseBody Object getAll() throws Exception {
-		throw new NotYetImplementedException();
+		return service.getAll();
 	}
 	
 	@RequestMapping("/getAllByEmail")
 	public @ResponseBody Object getAllByEmail(
 			@RequestParam String email) throws Exception {
-		throw new NotYetImplementedException();
+		return service.getByEmail(email);
 	}
 	
 	@RequestMapping("/getAllByFilter")
 	public @ResponseBody Object getAllByFilter(
 			@RequestParam Integer filter) throws Exception {
-		throw new NotYetImplementedException();
+		return service.getByFilter(filter);
 	}
 	
 	@RequestMapping("/getAllByDatePeriod")
@@ -98,6 +98,18 @@ public class ReportsController {
 	public @ResponseBody Object remove(
 			@RequestParam String uid) throws Exception {
 		return service.removeReport(uid);
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public @ResponseBody Object editReport(
+			@RequestParam String lat,
+			@RequestParam String lng,
+			@RequestParam Integer type,
+			@RequestParam(required=false) String description,
+			@RequestParam(required=false) String email,
+			@RequestParam String uid) throws Exception {
+
+		return service.editReport(lat, lng, type, description, email, uid);
 	}
 	
 }

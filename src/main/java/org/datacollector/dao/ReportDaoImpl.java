@@ -4,18 +4,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.datacollector.db.Report;
+import org.datacollector.utils.MyDateTimeUtils;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ReportDaoImpl extends ReportDao {
-
-	@Override
-	public List<Report> getAll(Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Report> getAllByEmail(String email, Session session) throws RuntimeException {
@@ -25,32 +22,62 @@ public class ReportDaoImpl extends ReportDao {
 
 	@Override
 	public List<Report> getByFilterToday(Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		DateTime now = DateTime.now();
+		DateTime startOfDay = MyDateTimeUtils.localDateStartOfDay(now);
+
+		return  (List<Report>) session.createCriteria(Report.class)
+				.add(Restrictions.ge("date", startOfDay.toDate()))
+				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.eq("active", true))
+				.list();
 	}
 
 	@Override
 	public List<Report> getByFilterYesterday(Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		DateTime now = DateTime.now();
+		DateTime startOfDay = MyDateTimeUtils.localDateStartOfDay(now).minusDays(1);
+
+		return  (List<Report>) session.createCriteria(Report.class)
+				.add(Restrictions.ge("date", startOfDay.toDate()))
+				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.eq("active", true))
+				.list();
 	}
 
 	@Override
 	public List<Report> getByFilter3Day(Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		DateTime now = DateTime.now();
+		DateTime startOfDay = MyDateTimeUtils.localDateStartOfDay(now).minusDays(3);
+
+		return  (List<Report>) session.createCriteria(Report.class)
+				.add(Restrictions.ge("date", startOfDay.toDate()))
+				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.eq("active", true))
+				.list();
 	}
 
 	@Override
 	public List<Report> getByFilterWeek(Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		DateTime now = DateTime.now();
+		DateTime startOfDay = MyDateTimeUtils.localDateStartOfDay(now).withDayOfWeek(DateTimeConstants.MONDAY);
+
+		return  (List<Report>) session.createCriteria(Report.class)
+				.add(Restrictions.ge("date", startOfDay.toDate()))
+				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.eq("active", true))
+				.list();
 	}
 
 	@Override
 	public List<Report> getByFilterMonth(Session session) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		DateTime now = DateTime.now();
+		DateTime startOfDay = MyDateTimeUtils.localDateStartOfDay(now).withDayOfMonth(1);
+
+		return  (List<Report>) session.createCriteria(Report.class)
+				.add(Restrictions.ge("date", startOfDay.toDate()))
+				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.eq("active", true))
+				.list();
 	}
 
 	@Override

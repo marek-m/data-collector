@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.validator.EmailValidator;
+import org.apache.commons.validator.routines.FloatValidator;
+import org.apache.commons.validator.routines.IntegerValidator;
 import org.datacollector.dao.ReportDao;
 import org.datacollector.db.PollutionType;
 import org.datacollector.db.Report;
@@ -13,6 +15,9 @@ import org.datacollector.utils.Messages;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,30 +37,12 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	ReportDao dao;
 
-	
-	public List<ReportModel> getReports() throws Exception {
-		Session session = sf.openSession();
-		List<Report> list = (List<Report>) dao.getAll();
-		session.close();
-		
-		List<ReportModel> results = new ArrayList<ReportModel>(0);
-		
-//		for(Report r : list) {
-//			ReportModel m = new ReportModel(r.getId(), r.getName(), r.getDate());
-//			results.add(m);
-//		}
-		return results;
-	}
-
-
 	@Override
 	public Long addReport(String lat, String lng, int pollutionType, String description, String email)
 			throws Exception {
 		Long result = null;
-		//Validate data
-		isNullOrEmpty(lat, "lat");
-		isNullOrEmpty(lng, "lng");
-		
+		validateReportParameters(lat, lng, pollutionType, email);
+
 		PollutionType pollution = PollutionType.values()[pollutionType];
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
@@ -70,23 +57,14 @@ public class ReportServiceImpl implements ReportService {
 			session.close();
 			throw e;
 		}
-		
-		return result;
-	}
 
-	private static void isNullOrEmpty(String parameter, String parameterName) throws Exception {
-		if(Objects.isNull(parameter) || parameter.isEmpty()) {
-			throw new Exception("Parameter " + parameterName + " is required");
-		}
+		return result;
 	}
 
 	@Override
 	public List<ReportModel> getAll() throws Exception {
-		Session session = sf.openSession();
 		List<Report> list = (List<Report>) dao.getAllActive();
-		session.close();
-		
-		List<ReportModel> results = new ArrayList<ReportModel>(0);
+		List<ReportModel> results = new ArrayList<>(0);
 		
 		for(Report r : list) {
 			ReportModel m = new ReportModel(r.getId(), r.getLat(), r.getLng(), r.getPollution().ordinal(), r.getPollution().name(), r.getDescription(), r.getDate().getTime());
@@ -99,10 +77,10 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<ReportModel> getByEmail(String email) throws Exception {
 		Session session = sf.openSession();
-		List<Report> list = (List<Report>) dao.getAllByEmail(email, session);
+		List<Report> list = dao.getAllByEmail(email, session);
 		session.close();
 		
-		List<ReportModel> results = new ArrayList<ReportModel>(0);
+		List<ReportModel> results = new ArrayList<>(0);
 		
 		for(Report r : list) {
 			ReportModel m = new ReportModel(r.getId(), r.getLat(), r.getLng(), r.getPollution().ordinal(), r.getPollution().name(), r.getDescription(), r.getDate().getTime());
@@ -114,36 +92,45 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public List<ReportModel> getByFilter(Integer filterType) throws Exception {
-		Session session = sf.openSession();
+		Session session = null;
 		List<Report> list = null;
-		
-		switch(filterType) {
-			case TODAY: {
-				list = (List<Report>) dao.getByFilterToday(session);
-				break;
+		try {
+			session = sf.openSession();
+
+
+			validateFilter(filterType);
+
+			switch (filterType) {
+				case TODAY: {
+					list = dao.getByFilterToday(session);
+					break;
+				}
+				case YESTERDAY: {
+					list = dao.getByFilterYesterday(session);
+					break;
+				}
+				case THREE_DAYS: {
+					list = dao.getByFilter3Day(session);
+					break;
+				}
+				case WEEK: {
+					list = dao.getByFilterWeek(session);
+					break;
+				}
+				case MONTH: {
+					list = dao.getByFilterMonth(session);
+					break;
+				}
+				default: {
+					throw new Exception("Filter parameter should be one of: 0, 1, 3, 7, 30");
+				}
 			}
-			case YESTERDAY: {
-				list = (List<Report>) dao.getByFilterYesterday(session);
-				break;
-			}
-			case THREE_DAYS: {
-				list = (List<Report>) dao.getByFilter3Day(session);
-				break;
-			}
-			case WEEK: {
-				list = (List<Report>) dao.getByFilterWeek(session);
-				break;
-			}
-			case MONTH: {
-				list = (List<Report>) dao.getByFilterMonth(session);
-				break;
-			}
-			default: {
-				break;
-			}
+		} catch (Exception e) {
+			session.close();
+			throw e;
 		}
 		session.close();
-		List<ReportModel> results = new ArrayList<ReportModel>(0);
+		List<ReportModel> results = new ArrayList<>(0);
 		
 		for(Report r : list) {
 			ReportModel m = new ReportModel(r.getId(), r.getLat(), r.getLng(), r.getPollution().ordinal(), r.getPollution().name(), r.getDescription(), r.getDate().getTime());
@@ -152,6 +139,15 @@ public class ReportServiceImpl implements ReportService {
 		return results;
 	}
 
+	private static void validateFilter(Integer filter) throws Exception {
+		IntegerValidator intValidator = IntegerValidator.getInstance();
+		if(intValidator.validate(filter+"") == null) {
+			throw new Exception("Filter parameter is invalid");
+		}
+		if(!intValidator.isInRange(filter, 0, 30)) {
+			throw new Exception("Filter parameter should be one of: 0, 1, 3, 7, 30");
+		}
+	}
 
 	@Override
 	public List<ReportModel> getByDatePeriod(Long timestampFrom, Long timestampTo) throws Exception {
@@ -183,6 +179,9 @@ public class ReportServiceImpl implements ReportService {
 		Report r = dao.getByUID(uid, session);
 		if(r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
 
+		validateReportParameters(lat, lng, pollutionType, email);
+
+
 		r.setLat(lat);
 		r.setLng(lng);
 		r.setPollution(PollutionType.values()[pollutionType]);
@@ -196,6 +195,29 @@ public class ReportServiceImpl implements ReportService {
 		return true;
 	}
 
+
+	private static void validateReportParameters(String lat, String lng, int pollutionType, String email) throws Exception {
+		//VALIDATION
+		IntegerValidator intValidator = IntegerValidator.getInstance();
+		FloatValidator floatValidator = FloatValidator.getInstance();
+		org.apache.commons.validator.routines.EmailValidator emailValidator = org.apache.commons.validator.routines.EmailValidator.getInstance();
+
+		if(floatValidator.validate(lat) == null) {
+			throw new Exception("Latitude is not valid");
+		}
+		if(floatValidator.validate(lng) == null) {
+			throw new Exception("Longitude is not valid");
+		}
+		if(intValidator.validate(pollutionType+"") == null) {
+			throw new Exception("Type parameter is invalid");
+		}
+		if(!intValidator.isInRange(pollutionType, 0, 5)) {
+			throw new Exception("Type parameter must be in range between 0 and 5");
+		}
+		if(email != null && !email.isEmpty() && !emailValidator.isValid(email)) {
+			throw new Exception("Email is not valid");
+		}
+	}
 
 	@Override
 	public Boolean removeReport(String uid) throws Exception {

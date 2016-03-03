@@ -10,11 +10,6 @@ import org.hibernate.Session;
 public abstract class ReportDao extends DaoTemplate<Report>{
 
 	/**
-	 * All active
-	 */
-	public abstract List<Report> getAll(Session session) throws RuntimeException; 
-	
-	/**
 	 * All active by user email.
 	 * @param email
 	 * @param session
