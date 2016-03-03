@@ -73,7 +73,7 @@ public class ReportsController {
 		throw new NotYetImplementedException();
 	}
 	
-	@RequestMapping("/getByDatePeriod")
+	@RequestMapping("/getAllByDatePeriod")
 	public @ResponseBody List<ReportModel> getAllByEmail(
 			@RequestParam String timestampFrom,
 			@RequestParam String timestampTo) throws Exception {
@@ -89,15 +89,15 @@ public class ReportsController {
 	}
 	
 	@RequestMapping("/load")
-	public @ResponseBody ReportModel load(
+	public @ResponseBody Object load(
 			@RequestParam String uid) throws Exception {
-		throw new NotYetImplementedException();
+		return service.loadReport(uid);
 	}
 	
-	@RequestMapping("/remove")
+	@RequestMapping(value = "/remove", method=RequestMethod.POST)
 	public @ResponseBody Object remove(
 			@RequestParam String uid) throws Exception {
-		throw new NotYetImplementedException();
+		return service.removeReport(uid);
 	}
 	
 }

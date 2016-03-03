@@ -9,6 +9,7 @@ import org.datacollector.dao.ReportDao;
 import org.datacollector.db.PollutionType;
 import org.datacollector.db.Report;
 import org.datacollector.db.model.ReportModel;
+import org.datacollector.utils.Messages;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -170,21 +171,43 @@ public class ReportServiceImpl implements ReportService {
 	public ReportModel loadReport(String reportsUID) throws Exception {
 		Session session = sf.openSession();
 		Report r = dao.getByUID(reportsUID, session);
+		if(r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
+		session.close();
 		return new ReportModel(r.getId(), r.getLat(), r.getLng(), r.getPollution().ordinal(), r.getPollution().name(), r.getDescription(), r.getDate().getTime());
 	}
 
 
 	@Override
-	public Long editReport(String lat, String lng, int pollutionType, String description, String uid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean editReport(String lat, String lng, int pollutionType, String description, String email, String uid) throws Exception {
+		Session session = sf.openSession();
+		Report r = dao.getByUID(uid, session);
+		if(r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
+
+		r.setLat(lat);
+		r.setLng(lng);
+		r.setPollution(PollutionType.values()[pollutionType]);
+		if(description != null && !description.isEmpty())
+			r.setDescription(description);
+		if(email != null && !email.isEmpty())
+			r.setEmail(email);
+		
+		dao.update(r, session);
+		session.close();
+		return true;
 	}
 
 
 	@Override
 	public Boolean removeReport(String uid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sf.openSession();
+		Report r = dao.getByUID(uid, session);
+		if(r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
+		
+		r.setActive(false);
+		dao.update(r, session);
+		session.close();
+		
+		return true;
 	}
 
 }
