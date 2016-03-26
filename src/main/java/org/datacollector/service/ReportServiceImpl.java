@@ -187,10 +187,10 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public Boolean editReport(String lat, String lng, int pollutionType, String description, String email, String uid) throws Exception {
-		Session session = null;
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
 		Report r = null;
 		try {
-			session = sf.openSession();
 			r = dao.getByUID(uid, session);
 			if (r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
 
@@ -205,7 +205,10 @@ public class ReportServiceImpl implements ReportService {
 			if (email != null && !email.isEmpty())
 				r.setEmail(email);
 			dao.update(r, session);
+			tx.commit();
 		} catch (Exception e) {
+			System.out.println("Exception:" + e.getMessage());
+			tx.rollback();
 			throw e;
 		} finally {
 			session.close();
@@ -247,6 +250,7 @@ public class ReportServiceImpl implements ReportService {
 			if (r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
 			r.setActive(false);
 			dao.update(r, session);
+			tx.commit();
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 			tx.rollback();
