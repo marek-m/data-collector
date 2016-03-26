@@ -44,7 +44,7 @@ public class ReportDaoImpl extends ReportDao {
 
 		return  (List<Report>) session.createCriteria(Report.class)
 				.add(Restrictions.ge("date", startOfDay.toDate()))
-				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.le("date", MyDateTimeUtils.localDateNow().toDate()))
 				.add(Restrictions.eq("active", true))
 				.list();
 	}
@@ -56,7 +56,7 @@ public class ReportDaoImpl extends ReportDao {
 
 		return  (List<Report>) session.createCriteria(Report.class)
 				.add(Restrictions.ge("date", startOfDay.toDate()))
-				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.le("date", MyDateTimeUtils.localDateNow().toDate()))
 				.add(Restrictions.eq("active", true))
 				.list();
 	}
@@ -68,7 +68,7 @@ public class ReportDaoImpl extends ReportDao {
 
 		return  (List<Report>) session.createCriteria(Report.class)
 				.add(Restrictions.ge("date", startOfDay.toDate()))
-				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.le("date", MyDateTimeUtils.localDateNow().toDate()))
 				.add(Restrictions.eq("active", true))
 				.list();
 	}
@@ -80,7 +80,7 @@ public class ReportDaoImpl extends ReportDao {
 
 		return  (List<Report>) session.createCriteria(Report.class)
 				.add(Restrictions.ge("date", startOfDay.toDate()))
-				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.le("date", MyDateTimeUtils.localDateNow().toDate()))
 				.add(Restrictions.eq("active", true))
 				.list();
 	}
