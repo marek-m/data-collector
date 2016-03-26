@@ -10,7 +10,7 @@ public class MyDateTimeUtils {
 
     public static DateTime localDateStartOfDay(DateTime dateTime) {
         DateTime result = dateTime.millisOfDay().withMinimumValue();
-        result.plusMinutes(1);
+        result = result.plusMinutes(1);
         return result.withZone(DateTimeZone.forID("Europe/Warsaw"));
     }
 
