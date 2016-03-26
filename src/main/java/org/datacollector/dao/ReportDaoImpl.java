@@ -32,8 +32,7 @@ public class ReportDaoImpl extends ReportDao {
 		System.out.println("TO:"+MyDateTimeUtils.localDateNow().toDate().toString());
 
 		return  (List<Report>) session.createCriteria(Report.class)
-				.add(Restrictions.ge("date", startOfDay.toDate()))
-				.add(Restrictions.lt("date", MyDateTimeUtils.localDateNow().toDate()))
+				.add(Restrictions.eq("date", startOfDay.toDate()))
 				.add(Restrictions.eq("active", true))
 				.list();
 	}
