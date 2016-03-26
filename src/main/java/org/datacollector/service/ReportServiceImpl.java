@@ -54,7 +54,6 @@ public class ReportServiceImpl implements ReportService {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 			tx.rollback();
-			session.close();
 			throw e;
 		} finally {
 			session.close();
@@ -84,7 +83,6 @@ public class ReportServiceImpl implements ReportService {
 			session = sf.openSession();
 			list = dao.getAllByEmail(email, session);
 		} catch (Exception e) {
-			session.close();
 			throw e;
 		} finally {
 			session.close();
@@ -134,7 +132,6 @@ public class ReportServiceImpl implements ReportService {
 				}
 			}
 		} catch (Exception e) {
-			session.close();
 			throw e;
 		} finally {
 			session.close();
@@ -179,7 +176,6 @@ public class ReportServiceImpl implements ReportService {
 			r = dao.getByUID(reportsUID, session);
 			if(r == null) throw new Exception(Messages.REPORT_BY_GIVEN_ID_DOES_NOT_EXIST.name());
 		} catch (Exception e) {
-			session.close();
 			throw e;
 		} finally {
 			session.close();
@@ -210,7 +206,6 @@ public class ReportServiceImpl implements ReportService {
 				r.setEmail(email);
 			dao.update(r, session);
 		} catch (Exception e) {
-			session.close();
 			throw e;
 		} finally {
 			session.close();
@@ -255,7 +250,6 @@ public class ReportServiceImpl implements ReportService {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 			tx.rollback();
-			session.close();
 			throw e;
 		} finally {
 			session.close();
