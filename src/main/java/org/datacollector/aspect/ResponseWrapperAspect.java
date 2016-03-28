@@ -12,8 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class ResponseWrapperAspect {
+public class ResponseWrapperAspect { 
 
+	@Pointcut("@annotation(org.datacollector.aspect.UIMethod)")
+	public void uiPointcut() {}  
+	
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void anyRestControllerPointcut() {}
     
@@ -21,7 +24,7 @@ public class ResponseWrapperAspect {
     public void anyMethodPointcut() {}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@Around(value = "anyRestControllerPointcut() && anyMethodPointcut()")
+	@Around(value = "anyRestControllerPointcut() && anyMethodPointcut() && !uiPointcut()")
     public Object wrapResponse(ProceedingJoinPoint response) throws Throwable {
     	System.out.println(response.getSignature());
     	System.out.println("Wrapping response...");

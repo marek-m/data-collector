@@ -1,18 +1,40 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Spring Boot CLI + Javascript</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="webjars/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('p').animate({
-                fontSize: '48px'
-            }, "slow");
-        });
-    </script>
+<title>Getting Started: Spring Boot CLI + Javascript</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="tooplate_style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" ></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('p').animate({
+			fontSize : '48px'
+		}, "slow");
+		
+		var name = /*[[${name}]]*/ null;
+		console.log(name);
+	});
+</script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    var myVariable= /*[[${name}]]*/ 'value';
+
+    console.log(myVariable);
+/*]]>*/
+</script>
+
+
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
+	<p th:text="'Hello, ' + ${name} + '!'" />
 </body>
 </html>
