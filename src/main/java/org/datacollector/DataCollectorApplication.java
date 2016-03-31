@@ -28,5 +28,4 @@ public class DataCollectorApplication {
 		return hemf.getSessionFactory();
 	}
 
-
 }
