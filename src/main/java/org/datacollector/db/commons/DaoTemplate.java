@@ -5,6 +5,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -20,11 +24,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 public abstract class DaoTemplate<T> { 
 	private static final Logger LOGGER = LogManager.getLogger(DaoTemplate.class);
-	@Autowired
-	protected SessionFactory sf;
+	
+	   @PersistenceContext
+	   EntityManager entityManager;
+
+	   protected Session getCurrentSession()  {
+	      return entityManager.unwrap(Session.class);
+	   }
 
 	public Long saveWithS(T entity){
-		Session session = sf.openSession();
+		Session session = getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		session.persist(entity);  
 		tx.commit();
@@ -34,7 +43,7 @@ public abstract class DaoTemplate<T> {
 	
 	@Transactional(propagation = Propagation.MANDATORY)
 	public Long save(T entity){
-		Session session = sf.getCurrentSession();
+		Session session = getCurrentSession();
 		session.persist(entity);  
 		return getId(entity);
 	} 
@@ -55,12 +64,12 @@ public abstract class DaoTemplate<T> {
 	}
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void updateWithCS(T entity){ 
-		Session session = sf.getCurrentSession();
+		Session session = getCurrentSession();
 		session.update(entity);
 	}
 
 	public void update(T entity){ 
-		Session session = sf.openSession();
+		Session session = getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		session.update(entity);
 		tx.commit();
@@ -71,7 +80,7 @@ public abstract class DaoTemplate<T> {
 		session.update(entity);
 	}
 	public void remove(T entity){
-		Session session = sf.openSession();
+		Session session = getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		session.delete(entity);
 		tx.commit();
@@ -86,7 +95,7 @@ public abstract class DaoTemplate<T> {
 	@SuppressWarnings("unchecked")
 	public T findById(Long id){
 		try{
-			Session session = sf.openSession();
+			Session session = getCurrentSession();
 			T entity = (T)session.get(getClazz(), id);
 			session.close();
 			if(entity == null) 
@@ -100,7 +109,7 @@ public abstract class DaoTemplate<T> {
 	}
 	@SuppressWarnings("unchecked")
 	public T testFind(Long id){
-			Session session = sf.getCurrentSession();
+			Session session = getCurrentSession();
 			T entity = (T)session.get(getClazz(), id);
 			if(entity == null) 
 				return Null(); 
@@ -148,7 +157,7 @@ public abstract class DaoTemplate<T> {
 	
 	@SuppressWarnings("unchecked")
 	public Collection<T> getAll(){
-		Session session = sf.openSession();
+		Session session = getCurrentSession();
 		List<T> list = (List<T>)session.createCriteria(getClazz()).list();
 		session.close();
 		if(list == null) 
@@ -158,7 +167,7 @@ public abstract class DaoTemplate<T> {
 	
 	@SuppressWarnings("unchecked")
 	public Collection<T> getAllActive(){
-		Session session = sf.openSession();
+		Session session = getCurrentSession();
 		List<T> list = (List<T>)session.createCriteria(getClazz())
 				.add(Restrictions.eq("active", true))
 				.list();

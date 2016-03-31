@@ -17,19 +17,13 @@
 		$('p').animate({
 			fontSize : '48px'
 		}, "slow");
-		
-		var name = /*[[${name}]]*/ null;
-		console.log(name);
 	});
 </script>
 
 <script th:inline="javascript">
-/*<![CDATA[*/
-
     var myVariable= /*[[${name}]]*/ 'value';
 
     console.log(myVariable);
-/*]]>*/
 </script>
 
 

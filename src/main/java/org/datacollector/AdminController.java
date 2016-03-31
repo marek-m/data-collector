@@ -6,6 +6,8 @@ import org.datacollector.db.model.ReportModel;
 import org.datacollector.service.ReportService;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,5 +78,7 @@ public class AdminController {
 
 		return service.editReport(lat, lng, type, description, email, uid);
 	}
+	
+
 	
 }
