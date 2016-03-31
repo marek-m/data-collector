@@ -15,13 +15,4 @@ import java.util.List;
 
 @Repository
 public class ManageDaoImpl extends ManageDao {
-
-	@Override
-	public boolean add(String email, String password, Session session) {
-		Userr user = new Userr();
-		user.setEmail(email);
-		user.setPassword(password);
-		save(user, session);
-		return true;
-	}
 }
