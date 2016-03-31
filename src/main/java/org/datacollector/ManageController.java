@@ -44,9 +44,10 @@ public class ManageController {
 			return "home/registerResult";
 		}
 
+		boolean result = manageService.registerUser(registerUser.getEmail(),registerUser.getPassword());
 
 
-		registerUser.setSuccess(true);
+		registerUser.setSuccess(result);
 		registerUser.setMessage("User"+registerUser.getEmail() + " registered!");
 		
 		return "home/registerResult";
