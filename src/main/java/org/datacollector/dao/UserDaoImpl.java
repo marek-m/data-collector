@@ -1,8 +1,5 @@
 package org.datacollector.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.datacollector.db.Userr;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
