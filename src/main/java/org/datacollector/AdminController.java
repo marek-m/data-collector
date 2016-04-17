@@ -78,7 +78,4 @@ public class AdminController {
 
 		return service.editReport(lat, lng, type, description, email, uid);
 	}
-	
-
-	
 }

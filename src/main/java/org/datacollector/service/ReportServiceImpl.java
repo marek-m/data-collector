@@ -56,7 +56,8 @@ public class ReportServiceImpl implements ReportService {
 			tx.rollback();
 			throw e;
 		} finally {
-			session.close();
+			if(session.isOpen())
+				session.close();
 		}
 
 		return result;
@@ -85,7 +86,8 @@ public class ReportServiceImpl implements ReportService {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			session.close();
+			if(session.isOpen())
+				session.close();
 		}
 
 		List<ReportModel> results = new ArrayList<>(0);
@@ -134,7 +136,8 @@ public class ReportServiceImpl implements ReportService {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			session.close();
+			if(session.isOpen())
+				session.close();
 		}
 		List<ReportModel> results = new ArrayList<>(0);
 		
@@ -178,7 +181,8 @@ public class ReportServiceImpl implements ReportService {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			session.close();
+			if(session.isOpen())
+				session.close();
 		}
 
 		return new ReportModel(r.getId(), r.getLat(), r.getLng(), r.getPollution().ordinal(), r.getPollution().name(), r.getDescription(), r.getDate().getTime());
@@ -211,7 +215,8 @@ public class ReportServiceImpl implements ReportService {
 			tx.rollback();
 			throw e;
 		} finally {
-			session.close();
+			if(session.isOpen())
+				session.close();
 		}
 		return true;
 	}
@@ -256,7 +261,8 @@ public class ReportServiceImpl implements ReportService {
 			tx.rollback();
 			throw e;
 		} finally {
-			session.close();
+			if(session.isOpen())
+				session.close();
 		}
 
 		return true;

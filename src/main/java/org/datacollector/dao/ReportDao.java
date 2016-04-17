@@ -26,6 +26,4 @@ public abstract class ReportDao extends DaoTemplate<Report>{
 	public abstract Report getByUID(String uid, Session session) throws RuntimeException;
 	
 	public abstract List<Report> getByDatePeriod(Date dateFrom, Date dateTo, Session session) throws RuntimeException;
-
-	
 }
