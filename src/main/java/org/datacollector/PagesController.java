@@ -3,6 +3,8 @@ package org.datacollector;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.datacollector.aspect.UIMethod;
 import org.datacollector.db.model.RegisterUser;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,9 +12,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/manage")
-public class ManageController {
+@RequestMapping("/page")
+public class PagesController {
 
+	@ModelAttribute("user")
+	public String getUser() {
+	   return getPrincipal();
+	}
+	
+	@UIMethod
+	@RequestMapping("/index")
+	public String index(Model model) {
+		return "page/index";
+	}
+	
+	@UIMethod
+	@RequestMapping("/services")
+	public String services(Model model) {
+		return "page/services";
+	}	
+	
+	@UIMethod
+	@RequestMapping("/solutions")
+	public String solutions(Model model) {
+		return "page/solutions";
+	}	
+	
+	@UIMethod
+	@RequestMapping("/about")
+	public String about(Model model) {
+		return "page/about";
+	}	
+	
+	@UIMethod
+	@RequestMapping("/contact")
+	public String contact(Model model) {
+		return "page/contact";
+	}	
+	
 	@UIMethod
 	@RequestMapping(value = "/register", method=RequestMethod.GET)
 	public String registerForm(Model model) throws Exception {
@@ -30,7 +67,7 @@ public class ManageController {
 		if(registerUser.getEmail() != null && !registerUser.getEmail().isEmpty() && !emailValidator.isValid(registerUser.getEmail())) {
 			registerUser.setSuccess(false);
 			registerUser.setError("Email is not valid");
-			return "home/registerResult";
+			return "page/registerResult";
 		}
 		if(registerUser.getPassword() != null && registerUser.getPassword().length() < 6) {
 			registerUser.setSuccess(false);
@@ -43,4 +80,17 @@ public class ManageController {
 		
 		return "page/registerResult";
 	}
+	
+	
+    private String getPrincipal(){
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+ 
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
 }

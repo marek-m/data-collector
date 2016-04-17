@@ -9,12 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @ComponentScan(basePackages = { "org.datacollector" })
 @EnableAutoConfiguration
 @EnableAspectJAutoProxy
-@EnableWebMvc
 @EnableWebSecurity
 @EnableTransactionManagement
 public class DataCollectorApplication {

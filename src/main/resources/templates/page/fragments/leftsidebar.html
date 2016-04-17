@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link th:href="@{/css/tooplate_style.css}" rel="stylesheet"
+	href="../../css/tooplate_style.css" />
+</head>
+<body>
+	<div th:fragment="leftsidebar">
+		<div id="tooplate_sidebar">
+
+			<h2>Przydatne serwisy</h2>
+
+			<ul class="tooplate_list">
+
+				<li><a href="http://www.suchylas.pl/pl/">Gmina Suchy Las</a></li>
+				<li><a href="http://powiat.poznan.pl/">Powiat Poznański</a></li>
+				<li><a href="http://www.odpady.poznan.pl/">Zakład
+						Zagospodarowania Odpadów</a></li>
+				<li><a href="http://www.goap.org.pl/">Gospodarka Odpadami
+						Aglomeracji Poznańskiej</a></li>
+				<li><a
+					href="http://www.poznan.pl/mim/wos/punkty-selektywnego-zbierania-odpadow-komunalnych-tzw-gratowiska,p,4043,4050,4062.html">"Gratowiska"
+						w Poznaniu</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

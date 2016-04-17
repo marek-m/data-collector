@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Business Theme - About Our Company</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<!-- Template 2033 Business http://www.tooplate.com/view/2033-business -->
+	<link th:href="@{/css/tooplate_style.css}" rel="stylesheet" href="../../css/tooplate_style.css" />
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+	<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+</head>
+
+<body>
+	<div th:replace="page/fragments/header :: header" />
+
+	<div id="tooplate_main">
+
+		<div id="tooplate_content">
+
+			<h5>EKOSTANDARD</h5>
+			<h6>Pracownia Analiz Środowiskowych</h6>
+
+			<p>ul. Wiązowa 1B/2</p>
+			<p>62-002 Suchy Las</p>
+			<p>woj. wielkopolskie</p>
+			<p>tel.: 61 812 55 89</p>
+			<p>tel.kom.: 0505006914</p>
+			<p>fax.: 61 812 55</p>
+			<p>e-mail: ekostandard@ekostandard.pl</p>
+			<br />
+				<p>ul. Ożarowska 107</p>
+				<p>27-600 Sandomierz</p>
+				<p>woj. świętokrzyskie</p>
+				<p>tel.: 15 832 56 22</p>
+
+				<p>Firma EKOSTANDARD działa na terenie całego kraju. Dzięki
+					zastosowaniu nowoczesnych rozwiązań, odległość do naszego klienta
+					nie ma wpływu na cenę oferowanych przez naszą firmę usług.</p>
+			<p>Jeśli jesteście Państwo zainteresowani naszą ofertą, nasz
+				ekspert może Was odwiedzić w najbliższym czasie.</p>
+
+
+			<div id="dialog" title="Informacja o zanieczyszczeniach"></div>
+
+
+		</div>
+		<div th:replace="page/fragments/leftsidebar :: leftsidebar" />
+		<div class="cleaner"></div>
+	</div>
+	<div class="cleaner"></div>
+	<div th:replace="page/fragments/footer :: footer">Footer 2016</div>
+</body>
+</html>

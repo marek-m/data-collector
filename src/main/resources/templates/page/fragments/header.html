@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link th:href="@{/css/tooplate_style.css}" rel="stylesheet"
+	href="../../css/tooplate_style.css" />
+</head>
+<body>
+	<div th:fragment="header">
+
+		<div>
+
+			<div id="tooplate_header">
+
+
+				<div>
+					<div>
+						<br />
+						<h1 align="center">Gospodarka odpadami w Suchym Lesie</h1>
+					</div>
+					<!-- end of site_title -->
+				</div>
+
+				<div class="cleaner_h10"></div>
+
+				<div id="tooplate_menu">
+
+					<div id="home_menu">
+						<a href="#"></a>
+					</div>
+
+					<ul>
+						<li><a href="index.html">Aktualności</a></li>
+						<li><a href="about.html" class="current">Mapa</a></li>
+						<li><a href="services.html">Odpady</a></li>
+						<li><a href="solutions.html">Opłaty</a></li>
+						<li><a href="contact.html">Kontakt</a></li>
+						<li><p th:if="${user != null and user != 'anonymousUser'}" th:text="Zalogowany + ${user}">Username</p></li>
+					</ul>
+
+				</div>
+				<!-- end of tooplate_menu -->
+
+			</div>
+		</div>
+		<!-- end of header_wrapper -->
+
+		<div id="tooplate_middle_wrapper1">
+			<div id="tooplate_middle_wrapper2">
+				<div id="tooplate_middle">
+
+					<h1>
+						Włącz się!<span>Razem zadbajmy o środowisko</span>
+					</h1>
+
+					<p>Pokaż nam, gdzie występują niebezpieczne odpady i
+						zanieczyszczenia na terenie gminy Suchy Las</p>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
