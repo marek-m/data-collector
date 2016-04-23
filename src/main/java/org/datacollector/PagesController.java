@@ -55,6 +55,12 @@ public class PagesController {
 	}	
 	
 	@UIMethod
+	@RequestMapping("/login")
+	public String login(Model model) {
+		return "page/loginForm";
+	}
+	
+	@UIMethod
 	@RequestMapping(value = "/register", method=RequestMethod.GET)
 	public String registerForm(Model model) throws Exception {
 		model.addAttribute("userInput", new RegisterUser());
@@ -69,7 +75,7 @@ public class PagesController {
 		try {
 			userService.register(registerUser.getEmail(), registerUser.getPassword());
 			registerUser.setSuccess(true);
-			registerUser.setMessage("User"+registerUser.getEmail() + " registered!");
+			registerUser.setMessage("User "+registerUser.getEmail() + " registered!");
 		} catch (Exception e) {
 			registerUser.setError(e.getMessage());
 			registerUser.setSuccess(false);
