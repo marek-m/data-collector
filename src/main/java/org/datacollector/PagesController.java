@@ -1,8 +1,9 @@
 package org.datacollector;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.datacollector.aspect.UIMethod;
 import org.datacollector.db.model.RegisterUser;
+import org.datacollector.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/page")
 public class PagesController {
 
+	@Autowired
+	UserService userService;
+	
 	@ModelAttribute("user")
 	public String getUser() {
 	   return getPrincipal();
@@ -62,22 +66,14 @@ public class PagesController {
 	public String registerSubmit(@ModelAttribute RegisterUser registerUser, Model model) {
 		model.addAttribute("userInput", registerUser);
 		
-		EmailValidator emailValidator = EmailValidator.getInstance();
-		
-		if(registerUser.getEmail() != null && !registerUser.getEmail().isEmpty() && !emailValidator.isValid(registerUser.getEmail())) {
+		try {
+			userService.register(registerUser.getEmail(), registerUser.getPassword());
+			registerUser.setSuccess(true);
+			registerUser.setMessage("User"+registerUser.getEmail() + " registered!");
+		} catch (Exception e) {
+			registerUser.setError(e.getMessage());
 			registerUser.setSuccess(false);
-			registerUser.setError("Email is not valid");
-			return "page/registerResult";
-		}
-		if(registerUser.getPassword() != null && registerUser.getPassword().length() < 6) {
-			registerUser.setSuccess(false);
-			registerUser.setError("Password is to short");
-			return "page/registerResult";
-		}
-		
-		registerUser.setSuccess(true);
-		registerUser.setMessage("User"+registerUser.getEmail() + " registered!");
-		
+		} 
 		return "page/registerResult";
 	}
 	

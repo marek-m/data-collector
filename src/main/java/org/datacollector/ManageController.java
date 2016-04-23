@@ -3,9 +3,6 @@ package org.datacollector;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.datacollector.aspect.UIMethod;
 import org.datacollector.db.model.RegisterUser;
-import org.datacollector.service.ManageService;
-import org.datacollector.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/manage")
 public class ManageController {
-
-	@Autowired
-	ManageService manageService;
 
 	@UIMethod
 	@RequestMapping(value = "/register", method=RequestMethod.GET)
@@ -44,10 +38,6 @@ public class ManageController {
 			return "page/registerResult";
 		}
 
-		boolean result = manageService.registerUser(registerUser.getEmail(),registerUser.getPassword());
-
-
-		registerUser.setSuccess(result);
 		registerUser.setMessage("User"+registerUser.getEmail() + " registered!");
 		
 		return "page/registerResult";
