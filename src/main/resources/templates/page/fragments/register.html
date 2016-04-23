@@ -8,6 +8,8 @@
 	rel="stylesheet" media="screen" />
 <link th:href="@{/css/tooplate_style.css}" rel="stylesheet"
 	href="../../css/tooplate_style.css" />
+<link th:href="@{/css/style.css}" rel="stylesheet"
+	href="../../css/style.css" />
 </head>
 <body>
 	<div th:fragment="register-form">
@@ -19,10 +21,10 @@
 	</div>
 	<div th:fragment="register-result">
 		<div th:if="${userInput.success}">
-			<p th:text="${userInput.message}" />
+			<p class="success" th:text="${userInput.message}" />
 		</div>
 		<div th:unless="${userInput.success}">
-			<p th:text="${userInput.error}" />
+			<p class="error" th:text="${userInput.error}" />
 		</div>
 	</div>
 </body>
