@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div th:fragment="login-form">
-		<form name="f" th:action="@{/login}" method="post">
+		<form name="f" th:action="@{/page/login}" method="post">
 			<fieldset>
 				<legend>Please Login</legend>
 				<div th:if="${param.error}" class="error">Invalid username and password.</div>
