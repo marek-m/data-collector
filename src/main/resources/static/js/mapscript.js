@@ -126,16 +126,8 @@
 				at : "center center",
 				of : "#map"
 			},
-			buttons : {
-				"Dodaj punkt do bazy" : setData,
-				Anuluj : function() {
-					dialog.dialog("close");
-					//map.removeLayer(drawnItems);
-				}
-			},
 			close : function() {
 				form[0].reset();
-				console.log("Okno dialogowe zostało zamknięte");
 			}
 		});
 
