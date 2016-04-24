@@ -43,7 +43,7 @@
 
 			<div id="dialog" title="Informacja o zanieczyszczeniach">
 
-				<form action="#" id="addForm" th:action="@{/reports/add}" th:object="${report}" method="post">
+				<form action="#" id="addForm" th:action="@{/page/add}" th:object="${report}" method="post">
 					<fieldset>
 						<label for="inputDescription">Opis zgłoszenia</label><input type="text" th:field="*{description}" name="inputDescription" id="inputDescription" /> <label for="lat">LAT</label> <input type="text" name="lat" id="lat" th:field="*{lat}" /> <label for="lng">LNG</label> <input type="text"
 							name="lng" id="lng" th:field="*{lng}" /> <label for="type">Typ zanieczyszczenia</label> <select name="type" id="type" th:field="*{pollutionType}">
