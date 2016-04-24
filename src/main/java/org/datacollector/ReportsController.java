@@ -49,7 +49,7 @@ public class ReportsController {
 			throw new Exception("Type parameter must be in range between 0 and 5");
 		}
 		service.addReport(report, getPrincipal());
-		return "page/about";
+		return "redirect:/page/login";
 	}
 		
 	@RequestMapping("/getAll")
