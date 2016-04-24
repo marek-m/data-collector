@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.validator.routines.FloatValidator;
+import org.apache.commons.validator.routines.IntegerValidator;
 import org.datacollector.aspect.UIMethod;
 import org.datacollector.db.model.RegisterUser;
 import org.datacollector.db.model.ReportModel;
@@ -62,6 +64,33 @@ public class PagesController {
 		model.addAttribute("reports", getUserReports());
 		return "page/about";
 	}	
+	
+	@UIMethod
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String addReport(@ModelAttribute ReportModel report, Model model) throws Exception {
+		//ONLY FOR ACCESS USER PARAMETERS FROM TH
+		model.addAttribute("report", report);
+		
+		//MOVE VALIDATION TO DIFFERENT CLASS
+		IntegerValidator intValidator = IntegerValidator.getInstance();
+		FloatValidator floatValidator = FloatValidator.getInstance();
+		
+		if(floatValidator.validate(report.getLat()) == null) {
+			throw new Exception("Latitude is not valid");
+		}
+		if(floatValidator.validate(report.getLng()) == null) {
+			throw new Exception("Longitude is not valid");
+		}
+		if(intValidator.validate(report.getPollutionType()+"") == null) {
+			throw new Exception("Type parameter is invalid");
+		}
+		if(!intValidator.isInRange(report.getPollutionType(), 0, 5)) {
+			throw new Exception("Type parameter must be in range between 0 and 5");
+		}
+		reportService.addReport(report, getPrincipal());
+		return "page/about";
+	}
+	
 	
 	private List<ReportModel> getUserReports() throws Exception {
 		if(getPrincipal() != null)
