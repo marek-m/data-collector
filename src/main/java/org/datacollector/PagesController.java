@@ -55,7 +55,7 @@ public class PagesController {
 	
 	@UIMethod
 	@RequestMapping("/contact")
-	public String contact(Model model) {
+	public String contact(Model model) throws Exception {
 		return "page/contact";
 	}	
 	
@@ -97,6 +97,11 @@ public class PagesController {
 	    return "redirect:/page/login";
 	}
 	
+	@UIMethod
+	@RequestMapping(value = "/error", method=RequestMethod.GET)
+	public String error(Model model) throws Exception {
+		return "page/error";
+	}
 	
     private String getPrincipal(){
         String userName = null;

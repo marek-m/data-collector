@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.datacollector.db.model.ResponseListModel;
 import org.datacollector.db.model.ResponseModel;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
 @Aspect
 @Component
@@ -40,5 +41,21 @@ public class ResponseWrapperAspect {
     	} else {
     		return new ResponseModel<Object>(true, obj, "");
     	}        
+    }
+    
+    @Around(value = "uiPointcut() && args(model,..)")
+    public String errorPage(ProceedingJoinPoint response, Model model) throws Throwable {
+    	Object obj = null;
+    	try {
+    		obj = response.proceed();
+    	} catch (Exception e) {
+    		model.addAttribute("errorMsg", e.getMessage());
+    		return "/page/error";
+    	}
+    	
+    	if(obj instanceof String)
+    		return (String)obj;
+    	
+    	return "";
     }
 }
