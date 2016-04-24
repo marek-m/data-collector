@@ -29,7 +29,7 @@ public class ReportsController {
 	@UIMethod
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addReport(@ModelAttribute ReportModel report, Model model) throws Exception {
-		model.addAttribute("report", report);
+		model.addAttribute("report", new ReportModel());
 		
 		//MOVE VALIDATION TO DIFFERENT CLASS
 		IntegerValidator intValidator = IntegerValidator.getInstance();
