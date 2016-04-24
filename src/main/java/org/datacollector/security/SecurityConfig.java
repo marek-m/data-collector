@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(new AuthenticationSuccessHandler() {
 					@Override
 					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-						redirectStrategy.sendRedirect(request, response, "page/index");
+						redirectStrategy.sendRedirect(request, response, "index");
 					}
 				})
                 .permitAll();
