@@ -15,6 +15,7 @@
 				<p th:if="${param.logout}" class="success">You have been logged out.</p>
 				<p><label for="username">Username</label> <input type="text" id="username" name="username" /></p> 
 				<p><label for="password">Password</label> <input type="password" id="password" name="password" /></p>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<p><button type="submit" class="btn">Log in</button></p>
 			</fieldset>
 		</form>

@@ -5,7 +5,7 @@ import java.util.List;
 import org.datacollector.db.model.ReportModel;
 
 public interface ReportService {
-	public Long addReport(String lat, String lng, int pollutionType, String description, String email) throws Exception;
+	public Long addReport(ReportModel report, String email) throws Exception;
 	public List<ReportModel> getAll() throws Exception;
 	public List<ReportModel> getByEmail(String email) throws Exception;
 	public List<ReportModel> getByFilter(Integer filterType) throws Exception;

@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().csrfTokenRepository(csrfTokenRepository());
         http
             .authorizeRequests()
             	.antMatchers("/manage/**").permitAll()
-                .antMatchers("/reports/**").permitAll()
                 .antMatchers("/page/**").permitAll()
                 .antMatchers("/reports/**").access("hasRole('USER')")
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
@@ -48,5 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
+    }
+    
+    private CsrfTokenRepository csrfTokenRepository() { 
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository(); 
+        repository.setSessionAttributeName("_csrf");
+        return repository; 
     }
 }

@@ -37,24 +37,33 @@
 
 			<input type='button' id='getByEmail' value="POBIERZ MARKERY" />
 
-
+	    <form action="#" th:action="@{/page/register}" th:object="${userInput}" method="post">
+	    	<p>E-mail: <input type="text" th:field="*{email}" /></p>
+	        <p>Password: <input type="password" th:field="*{password}" /></p>
+	        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+	    </form>
+	    
 			<h2>Wskaż miejsca występowania zanieczyszczeń</h2>
 
 			<div id='map'></div>
 
 			<div id="dialog" title="Informacja o zanieczyszczeniach">
 
-				<form action="http://data-collector-app.herokuapp.com/reports/add" id="addForm">
+				<form action="#" id="addForm" th:action="@{/reports/add}" th:object="${report}" method="post">
 					<fieldset>
-						<label for="inputDescription">Opis zgłoszenia</label> <input type="text" name="inputDescription" id="inputDescription"></input> <label for="lat">LAT</label> <input type="text" name="lat" id="lat"></input> <label for="lng">LNG</label> <input type="text" name="lng" id="lng"></input> <label
-							for="type">Typ zanieczyszczenia</label> <select name="type" id="type">
+						<label for="inputDescription">Opis zgłoszenia</label><input type="text" th:field="*{description}" name="inputDescription" id="inputDescription" /> 
+						<label for="lat">LAT</label> <input type="text" name="lat" id="lat" th:field="*{lat}"/> 
+						<label for="lng">LNG</label> <input type="text" name="lng" id="lng" th:field="*{lng}"/> 
+						<label for="type">Typ zanieczyszczenia</label> 
+						<select name="type" id="type" th:field="*{type}">
 							<option value="0">AIR</option>
 							<option value="1">WATER</option>
 							<option value="2">SOIL</option>
 							<option value="3">NOISE</option>
 							<option value="4">RADIOACTIVE</option>
 							<option value="5">PLASTIC</option>
-						</select> <label for="email2">E-mail</label> <input type="email" name="email2" id="email2" /> <input type="submit" tabindex="-1" style="position: absolute; top: -1000px" />
+						</select> 
+						<input type="submit" tabindex="-1" style="position: absolute; top: -1000px" />
 					</fieldset>
 				</form>
 

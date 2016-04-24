@@ -2,9 +2,7 @@ package org.datacollector.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import org.apache.commons.validator.EmailValidator;
 import org.apache.commons.validator.routines.FloatValidator;
 import org.apache.commons.validator.routines.IntegerValidator;
 import org.datacollector.dao.ReportDao;
@@ -16,9 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.NotYetImplementedException;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,17 +34,17 @@ public class ReportServiceImpl implements ReportService {
 	ReportDao dao;
 
 	@Override
-	public Long addReport(String lat, String lng, int pollutionType, String description, String email)
+	public Long addReport(ReportModel report, String email)
 			throws Exception {
 		Long result = null;
-		validateReportParameters(lat, lng, pollutionType, email);
+		validateReportParameters(report.getLat(), report.getLng(), report.getPollutionType(), email);
 
-		PollutionType pollution = PollutionType.values()[pollutionType];
+		PollutionType pollution = PollutionType.values()[report.getPollutionType()];
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			Report report = new Report(lat, lng, pollution, description, email);
-			result = dao.save(report, session);
+			Report r = new Report(report.getLat(), report.getLng(), pollution, report.getDescription(), email);
+			result = dao.save(r, session);
 			tx.commit();
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
