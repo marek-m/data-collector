@@ -1,37 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Business Theme - About Our Company</title>
-	<meta name="keywords" content="" />
-	<meta name="description" content="" />
-	<!-- Template 2033 Business http://www.tooplate.com/view/2033-business -->
-	<link th:href="@{/css/tooplate_style.css}" rel="stylesheet" href="../../css/tooplate_style.css" />
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
-	<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
-	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-	
-	<style>
-	#map {
-		height: 500px;
-		width: 500px;
-		margin: auto;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-	</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Business Theme - About Our Company</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<!-- Template 2033 Business http://www.tooplate.com/view/2033-business -->
+<link th:href="@{/css/tooplate_style.css}" rel="stylesheet" href="../../css/tooplate_style.css" />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+
+<style>
+#map {
+	height: 500px;
+	width: 500px;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+</style>
 </head>
 
 <body>
 
 	<div th:replace="page/fragments/header :: header" />
-	
+
 	<div id="tooplate_main">
 		<div id="tooplate_content">
 
@@ -45,19 +45,15 @@
 
 				<form action="#" id="addForm" th:action="@{/reports/add}" th:object="${report}" method="post">
 					<fieldset>
-						<label for="inputDescription">Opis zgłoszenia</label><input type="text" th:field="*{description}" name="inputDescription" id="inputDescription" /> 
-						<label for="lat">LAT</label> <input type="text" name="lat" id="lat" th:field="*{lat}"/> 
-						<label for="lng">LNG</label> <input type="text" name="lng" id="lng" th:field="*{lng}"/> 
-						<label for="type">Typ zanieczyszczenia</label> 
-						<select name="type" id="type" th:field="*{pollutionType}">
+						<label for="inputDescription">Opis zgłoszenia</label><input type="text" th:field="*{description}" name="inputDescription" id="inputDescription" /> <label for="lat">LAT</label> <input type="text" name="lat" id="lat" th:field="*{lat}" /> <label for="lng">LNG</label> <input type="text"
+							name="lng" id="lng" th:field="*{lng}" /> <label for="type">Typ zanieczyszczenia</label> <select name="type" id="type" th:field="*{pollutionType}">
 							<option value="0">AIR</option>
 							<option value="1">WATER</option>
 							<option value="2">SOIL</option>
 							<option value="3">NOISE</option>
 							<option value="4">RADIOACTIVE</option>
 							<option value="5">PLASTIC</option>
-						</select>
-						<input type="submit" value="Dodaj zgłoszenie"/>
+						</select> <input type="submit" value="Dodaj zgłoszenie" />
 					</fieldset>
 				</form>
 
@@ -72,5 +68,14 @@
 	<div th:replace="page/fragments/footer :: footer">Footer 2016</div>
 
 	<script th:src="@{/js/mapscript.js}"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		
+		var reports = /*${reports}*/ []; 
+        for (var i = 0; i < myObjs.length; i++) { 
+        	console.log(reports[i].lat);
+        } 
+		/*]]>*/
+	</script>
 </body>
 </html>

@@ -1,11 +1,15 @@
 package org.datacollector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.datacollector.aspect.UIMethod;
 import org.datacollector.db.model.RegisterUser;
 import org.datacollector.db.model.ReportModel;
+import org.datacollector.service.ReportService;
 import org.datacollector.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,6 +28,9 @@ public class PagesController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	ReportService reportService;
 	
 	@ModelAttribute("user")
 	public String getUser() {
@@ -50,10 +57,18 @@ public class PagesController {
 	
 	@UIMethod
 	@RequestMapping("/about")
-	public String about(Model model) {
+	public String about(Model model) throws Exception {
 		model.addAttribute("report", new ReportModel());
+		model.addAttribute("reports", getUserReports());
 		return "page/about";
 	}	
+	
+	private List<ReportModel> getUserReports() throws Exception {
+		if(getPrincipal() != null)
+			return reportService.getByEmail(getPrincipal());
+		else 
+			return new ArrayList<ReportModel>();
+	}
 	
 	@UIMethod
 	@RequestMapping("/contact")
