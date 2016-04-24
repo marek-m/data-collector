@@ -29,7 +29,8 @@ public class ReportsController {
 	@UIMethod
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addReport(@ModelAttribute ReportModel report, Model model) throws Exception {
-		model.addAttribute("report", new ReportModel());
+		//ONLY FOR ACCESS USER PARAMETERS FROM TH
+		model.addAttribute("report", report);
 		
 		//MOVE VALIDATION TO DIFFERENT CLASS
 		IntegerValidator intValidator = IntegerValidator.getInstance();

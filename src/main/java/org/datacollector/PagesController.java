@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.datacollector.aspect.UIMethod;
 import org.datacollector.db.model.RegisterUser;
+import org.datacollector.db.model.ReportModel;
 import org.datacollector.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -50,6 +51,7 @@ public class PagesController {
 	@UIMethod
 	@RequestMapping("/about")
 	public String about(Model model) {
+		model.addAttribute("report", new ReportModel());
 		return "page/about";
 	}	
 	
